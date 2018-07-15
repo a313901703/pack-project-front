@@ -44,7 +44,7 @@ function checkStatus(response) {
  */
 export default function request(url, options) {
   const defaultOptions = {
-    credentials: 'include',
+    // credentials: 'include',
   };
   const newOptions = { ...defaultOptions, ...options };
   if (
@@ -71,6 +71,11 @@ export default function request(url, options) {
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(response => {
+      if (!response.ok) {
+        const error = new Error('请求失败');
+        error.response = response;
+        throw error;
+      }
       if (newOptions.method === 'DELETE' || response.status === 204) {
         return response.text();
       }

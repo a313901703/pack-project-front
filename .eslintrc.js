@@ -13,6 +13,7 @@ module.exports = {
     'generator-star-spacing': [0],
     'consistent-return': [0],
     'react/forbid-prop-types': [0],
+    'linebreak-style': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js'] }],
     'global-require': [1],
     'import/prefer-default-export': [0],

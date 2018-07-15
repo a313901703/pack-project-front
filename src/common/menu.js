@@ -23,6 +23,17 @@ const menuData = [
     ],
   },
   {
+    name: '数据源',
+    icon: 'database',
+    path: 'data-source',
+    children: [
+      {
+        name: 'API管理',
+        path: 'apis',
+      },
+    ],
+  },
+  {
     name: '表单页',
     icon: 'form',
     path: 'form',

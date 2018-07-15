@@ -88,6 +88,17 @@ export const getRouterData = app => {
       // name: '工作台',
       // authority: 'admin',
     },
+    '/data-source/apis': {
+      component: dynamicWrapper(app, ['apis'], () => import('../routes/DataSource/Apis')),
+    },
+    '/data-source/add-api': {
+      name: '添加API',
+      component: dynamicWrapper(app, ['apis'], () => import('../routes/DataSource/Apis/Add')),
+    },
+    '/data-source/edit-api/:id': {
+      name: '修改API',
+      component: dynamicWrapper(app, ['apis'], () => import('../routes/DataSource/Apis/Edit')),
+    },
     '/form/basic-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
     },
