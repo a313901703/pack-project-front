@@ -99,6 +99,33 @@ export const getRouterData = app => {
       name: '修改API',
       component: dynamicWrapper(app, ['apis'], () => import('../routes/DataSource/Apis/Edit')),
     },
+    // 规则列表
+    '/event-rule/list': {
+      name: '规则列表',
+      component: dynamicWrapper(app, ['eventRule'], () => import('../routes/EventRule')),
+    },
+    '/event-rule/add': {
+      name: '添加规则',
+      component: dynamicWrapper(app, ['eventRule'], () => import('../routes/EventRule/add')),
+    },
+    // 项目
+    '/project/list': {
+      name: '项目列表',
+      component: dynamicWrapper(app, ['products'], () => import('../routes/Project')),
+    },
+    '/project/add': {
+      name: '添加项目',
+      component: dynamicWrapper(app, ['products'], () => import('../routes/Project/add')),
+    },
+    '/project/edit/:id': {
+      name: '修改项目',
+      component: dynamicWrapper(app, ['products'], () => import('../routes/Project/Edit')),
+    },
+    '/project/pack': {
+      name: '打包项目',
+      component: dynamicWrapper(app, ['products'], () => import('../routes/Project/Pack')),
+    },
+
     '/form/basic-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
     },

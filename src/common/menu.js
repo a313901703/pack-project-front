@@ -34,6 +34,32 @@ const menuData = [
     ],
   },
   {
+    name: '规则',
+    icon: 'database',
+    path: 'event-rule',
+    children: [
+      {
+        name: '规则列表',
+        path: 'list',
+      },
+    ],
+  },
+  {
+    name: '项目',
+    icon: 'github',
+    path: 'project',
+    children: [
+      {
+        name: '项目列表',
+        path: 'list',
+      },
+      {
+        name: '打包列表',
+        path: 'pack',
+      },
+    ],
+  },
+  {
     name: '表单页',
     icon: 'form',
     path: 'form',

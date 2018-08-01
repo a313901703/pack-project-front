@@ -6,7 +6,7 @@ import { notification } from 'antd';
 
 // create an axios instance
 const service = axios.create({
-  baseURL: 'http://localhost:8001/', // api的base_url
+  baseURL: 'http://127.0.0.1:8070/v1', // api的base_url
   timeout: 5000, // request timeout
 });
 
@@ -22,7 +22,6 @@ service.interceptors.request.use(
   },
   error => {
     // Do something with request error
-    console.log(error); // for debug
     Promise.reject(error);
   }
 );
@@ -30,6 +29,10 @@ service.interceptors.request.use(
 // respone interceptor
 service.interceptors.response.use(
   response => response.data,
+  // response => {
+  //   console.log('request success',response)
+  //   return response.data
+  // },
   /**
    * 下面的注释为通过在response里，自定义code来标示请求状态
    * 当code返回如下情况则说明权限有问题，登出并返回到登录页
@@ -64,13 +67,58 @@ service.interceptors.response.use(
   //   }
   // },
   error => {
-    const msg = error.response.data ? error.response.data.message : '';
+    let message = '';
+    if (error && error.response) {
+      switch (error.response.status) {
+        case 400:
+          message = '请求错误(400)';
+          break;
+        case 401:
+          message = '未授权，请重新登录(401)';
+          break;
+        case 403:
+          message = '拒绝访问(403)';
+          break;
+        case 404:
+          message = '请求出错(404)';
+          break;
+        case 408:
+          message = '请求超时(408)';
+          break;
+        case 500:
+          message = '服务器错误(500)';
+          break;
+        case 501:
+          message = '服务未实现(501)';
+          break;
+        case 502:
+          message = '网络错误(502)';
+          break;
+        case 503:
+          message = '服务不可用(503)';
+          break;
+        case 504:
+          message = '网络超时(504)';
+          break;
+        case 505:
+          message = 'HTTP版本不受支持(505)';
+          break;
+        default:
+          message = '连接服务器失败';
+      }
+    } else {
+      message = '连接服务器失败!';
+    }
     notification.error({
       message: '请求失败',
-      description: msg,
+      description: message,
     });
-    return error;
-    // return Promise.reject(error)
+    // const err = new Error(message);
+    // err.name = error.response.status;
+    // err.response = error.response;
+    // throw error;
+    // throw error;
+    return Promise.reject(error);
   }
 );
 
