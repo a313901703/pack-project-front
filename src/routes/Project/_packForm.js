@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import { Form, Input, Button, Card, Select, message } from 'antd';
-import moment from 'moment/moment';
 
 const { Option } = Select;
 
@@ -157,12 +156,12 @@ export default class PackForm extends PureComponent {
                   message: '请输入项目路径',
                 },
               ],
-            })(<Input />)}
+            })(<Input disabled />)}
           </FormItem>
 
           <FormItem {...formItemLayout} label="包名">
             {getFieldDecorator('package_name', {
-              initialValue: `${moment().format('YYYY-MM-DD')}-${projectSelected.name || ''}`,
+              initialValue: projectSelected.name || '',
               rules: [
                 {
                   required: true,

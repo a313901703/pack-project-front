@@ -18,17 +18,23 @@ export default class AddApi extends PureComponent {
 
     this.state = {
       _id: props.id,
-      // formValue: {},
+      item: {},
     };
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
     const { _id } = this.state;
+    const that = this;
     if (_id) {
       dispatch({
         type: 'products/fetchOne',
         payload: _id,
+        callback: res => {
+          that.setState({
+            item: res,
+          });
+        },
       });
     }
   }
@@ -75,10 +81,7 @@ export default class AddApi extends PureComponent {
   render() {
     const { submitting, form } = this.props;
     const { getFieldDecorator } = form;
-    // const { formValue } = this.state;
-    const {
-      products: { item },
-    } = this.props;
+    const { item } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -158,6 +161,18 @@ export default class AddApi extends PureComponent {
                 {
                   required: true,
                   message: '请输入项目路径',
+                },
+              ],
+            })(<Input />)}
+          </FormItem>
+
+          <FormItem {...formItemLayout} label="目标文件">
+            {getFieldDecorator('target', {
+              initialValue: item.target || '~/packages/',
+              rules: [
+                {
+                  required: true,
+                  message: '请输入目标文件路径',
                 },
               ],
             })(<Input />)}

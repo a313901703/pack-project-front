@@ -118,7 +118,6 @@ service.interceptors.response.use(
     // err.response = error.response;
     // throw error;
     // throw error;
-    return Promise.reject(error);
   }
 );
 

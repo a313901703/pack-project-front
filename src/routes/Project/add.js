@@ -7,7 +7,7 @@ export default class AddApi extends PureComponent {
   render() {
     return (
       <PageHeaderLayout>
-        <ApiForm />
+        <ApiForm id={0} />
       </PageHeaderLayout>
     );
   }

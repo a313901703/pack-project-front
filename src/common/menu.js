@@ -53,10 +53,10 @@ const menuData = [
         name: '项目列表',
         path: 'list',
       },
-      {
-        name: '打包列表',
-        path: 'pack',
-      },
+      // {
+      //   name: '打包列表',
+      //   path: 'pack',
+      // },
     ],
   },
   {

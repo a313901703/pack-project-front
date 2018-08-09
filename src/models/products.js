@@ -21,48 +21,67 @@ export default {
   effects: {
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryAll, payload);
-      yield put({
-        type: 'saveProducts',
-        payload: response,
-      });
+      if (response) {
+        yield put({
+          type: 'saveProducts',
+          payload: response,
+        });
+      }
     },
     *add({ payload, callback }, { call, put }) {
       const response = yield call(addProjects, payload);
-      yield put({
-        type: 'saveProducts',
-        payload: response,
-      });
+      if (response) {
+        yield put({
+          type: 'saveProducts',
+          payload: response,
+        });
+      }
       if (callback) callback();
     },
     *edit({ payload, callback }, { call, put }) {
       const response = yield call(editProject, payload);
-      yield put({
-        type: 'saveProducts',
-        payload: response,
-      });
+      if (response) {
+        yield put({
+          type: 'saveProducts',
+          payload: response,
+        });
+      }
       if (callback) callback();
     },
     *fetchOne({ payload, callback }, { call, put }) {
       const response = yield call(queryOne, payload);
-      yield put({
-        type: 'setProduct',
-        payload: response,
-      });
-      if (callback) callback(response);
+      if (response) {
+        yield put({
+          type: 'setProduct',
+          payload: response,
+        });
+        if (callback) callback(response);
+      }
     },
     *remove({ payload, callback }, { call, put }) {
       const response = yield call(deleteProject, payload);
-      yield put({
-        type: 'removeRule',
-        payload: response,
-      });
+      if (response) {
+        yield put({
+          type: 'removeRule',
+          payload: response,
+        });
+      }
       if (callback) callback();
     },
     *pack({ payload, callback }, { call, put }) {
       const response = yield call(addPack, payload);
+      if (response) {
+        yield put({
+          type: 'addPack',
+          payload: response,
+        });
+      }
+      if (callback) callback();
+    },
+    *clearItem({ callback }, { put }) {
       yield put({
-        type: 'addPack',
-        payload: response,
+        type: 'setProduct',
+        payload: {},
       });
       if (callback) callback();
     },
