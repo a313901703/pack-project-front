@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
+
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
-import { Form, Input, Button, Card, Select, message } from 'antd';
+import { Form, Input, Button, Card, Select, message, Alert } from 'antd';
 
 const { Option } = Select;
 
@@ -9,7 +10,7 @@ const FormItem = Form.Item;
 
 @connect(({ products, loading }) => ({
   products,
-  submitting: loading.effects['form/submitRegularForm'],
+  submitting: loading.effects['products/pack'],
 }))
 @Form.create()
 export default class PackForm extends PureComponent {
@@ -18,7 +19,10 @@ export default class PackForm extends PureComponent {
 
     this.state = {
       projectSelected: {},
-      // formValue: {},
+      retPack: {
+        status: 0,
+        msg: '',
+      },
     };
   }
 
@@ -38,6 +42,7 @@ export default class PackForm extends PureComponent {
   }
 
   handleSubmit = e => {
+    // const _this = this
     e.preventDefault();
     const { form, dispatch } = this.props;
     form.validateFieldsAndScroll((err, values) => {
@@ -45,8 +50,22 @@ export default class PackForm extends PureComponent {
         dispatch({
           type: 'products/pack',
           payload: values,
-          callback: () => {
-            message.success('添加成功');
+          callback: res => {
+            if (res.status === 0) {
+              message.success('添加成功');
+              dispatch(routerRedux.goBack());
+            } else {
+              if (res.status === 127) {
+                res.msg = 'Can not find command';
+              } else if (res.status === 128) {
+                res.msg = 'Fatal Signal';
+              } else if (res.status === 126) {
+                res.msg = 'Can not execute';
+              }
+              this.setState({
+                retPack: res,
+              });
+            }
           },
         });
       }
@@ -67,20 +86,20 @@ export default class PackForm extends PureComponent {
   }
 
   render() {
-    const { submitting, form } = this.props;
-    const { getFieldDecorator } = form;
-    const { projectSelected } = this.state;
-    // const { formValue } = this.state;
     const {
       products: { data },
+      submitting,
+      form,
     } = this.props;
+    const { getFieldDecorator } = form;
+    const { projectSelected, retPack } = this.state;
 
     const projectOptions = data.list.map(project => (
       <Option key={project.id}>{project.name}</Option>
     ));
-    const branchOptions = (projectSelected.branch || []).map(value => (
-      <Option key={value}>{value}</Option>
-    ));
+    // const branchOptions = (projectSelected.branch || []).map(value => (
+    //   <Option key={value}>{value}</Option>
+    // ));
 
     const formItemLayout = {
       labelCol: {
@@ -103,6 +122,11 @@ export default class PackForm extends PureComponent {
 
     return (
       <Card bordered={false}>
+        {retPack.status ? (
+          <Alert message="Error" description={retPack.msg} type="error" showIcon />
+        ) : (
+          <div />
+        )}
         <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
           <FormItem {...formItemLayout} label="项目">
             {getFieldDecorator('project', {
@@ -147,51 +171,40 @@ export default class PackForm extends PureComponent {
             )}
           </FormItem>
 
-          <FormItem {...formItemLayout} label="路径">
-            {getFieldDecorator('path', {
-              initialValue: projectSelected.path,
-              rules: [
-                {
-                  required: true,
-                  message: '请输入项目路径',
-                },
-              ],
-            })(<Input disabled />)}
-          </FormItem>
-
-          <FormItem {...formItemLayout} label="包名">
-            {getFieldDecorator('package_name', {
-              initialValue: projectSelected.name || '',
-              rules: [
-                {
-                  required: true,
-                  message: '包名',
-                },
-              ],
-            })(<Input />)}
-          </FormItem>
-
           <FormItem {...formItemLayout} label="分支">
             {getFieldDecorator('branch', {
               // initialValue: projectSelected.branch || [],
               rules: [
                 {
                   required: true,
-                  message: '',
+                  message: '分支必填',
                 },
               ],
-            })(
-              <Select
-                showSearch
-                placeholder="选择分支"
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                  option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }
-              >
-                {branchOptions}
-              </Select>
-            )}
+            })(<Input />)}
+          </FormItem>
+
+          <FormItem {...formItemLayout} label="版本号">
+            {getFieldDecorator('tags', {
+              // initialValue: '',
+              rules: [
+                {
+                  required: true,
+                  message: '版本号必填',
+                },
+              ],
+            })(<Input />)}
+          </FormItem>
+
+          <FormItem {...formItemLayout} label="目标路径">
+            {getFieldDecorator('target', {
+              initialValue: '/home/amos/packages',
+              rules: [
+                {
+                  required: true,
+                  message: '目标路径必填',
+                },
+              ],
+            })(<Input />)}
           </FormItem>
 
           <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>

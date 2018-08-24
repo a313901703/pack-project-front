@@ -74,41 +74,45 @@ export const getRouterData = app => {
     '/': {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
-    '/dashboard/analysis': {
-      component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
-    },
-    '/dashboard/monitor': {
-      component: dynamicWrapper(app, ['monitor'], () => import('../routes/Dashboard/Monitor')),
-    },
-    '/dashboard/workplace': {
-      component: dynamicWrapper(app, ['project', 'activities', 'chart'], () =>
-        import('../routes/Dashboard/Workplace')
-      ),
-      // hideInBreadcrumb: true,
-      // name: '工作台',
-      // authority: 'admin',
-    },
-    '/data-source/apis': {
-      component: dynamicWrapper(app, ['apis'], () => import('../routes/DataSource/Apis')),
-    },
-    '/data-source/add-api': {
-      name: '添加API',
-      component: dynamicWrapper(app, ['apis'], () => import('../routes/DataSource/Apis/Add')),
-    },
-    '/data-source/edit-api/:id': {
-      name: '修改API',
-      component: dynamicWrapper(app, ['apis'], () => import('../routes/DataSource/Apis/Edit')),
-    },
-    // 规则列表
-    '/event-rule/list': {
-      name: '规则列表',
-      component: dynamicWrapper(app, ['eventRule'], () => import('../routes/EventRule')),
-    },
-    '/event-rule/add': {
-      name: '添加规则',
-      component: dynamicWrapper(app, ['eventRule'], () => import('../routes/EventRule/add')),
-    },
+    // '/dashboard/analysis': {
+    //   component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
+    // },
+    // '/dashboard/monitor': {
+    //   component: dynamicWrapper(app, ['monitor'], () => import('../routes/Dashboard/Monitor')),
+    // },
+    // '/dashboard/workplace': {
+    //   component: dynamicWrapper(app, ['project', 'activities', 'chart'], () =>
+    //     import('../routes/Dashboard/Workplace')
+    //   ),
+    //   // hideInBreadcrumb: true,
+    //   // name: '工作台',
+    //   // authority: 'admin',
+    // },
+    // '/data-source/apis': {
+    //   component: dynamicWrapper(app, ['apis'], () => import('../routes/DataSource/Apis')),
+    // },
+    // '/data-source/add-api': {
+    //   name: '添加API',
+    //   component: dynamicWrapper(app, ['apis'], () => import('../routes/DataSource/Apis/Add')),
+    // },
+    // '/data-source/edit-api/:id': {
+    //   name: '修改API',
+    //   component: dynamicWrapper(app, ['apis'], () => import('../routes/DataSource/Apis/Edit')),
+    // },
+    // // 规则列表
+    // '/event-rule/list': {
+    //   name: '规则列表',
+    //   component: dynamicWrapper(app, ['eventRule'], () => import('../routes/EventRule')),
+    // },
+    // '/event-rule/add': {
+    //   name: '添加规则',
+    //   component: dynamicWrapper(app, ['eventRule'], () => import('../routes/EventRule/add')),
+    // },
     // 项目
+    // '/': {
+    //   name: '项目列表',
+    //   component: dynamicWrapper(app, ['products'], () => import('../routes/Project')),
+    // },
     '/project/list': {
       name: '项目列表',
       component: dynamicWrapper(app, ['products'], () => import('../routes/Project')),
@@ -122,6 +126,10 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['products'], () => import('../routes/Project/Edit')),
     },
     '/project/pack': {
+      name: '打包记录',
+      component: dynamicWrapper(app, ['products'], () => import('../routes/Project/PackList')),
+    },
+    '/project/package/add': {
       name: '打包项目',
       component: dynamicWrapper(app, ['products'], () => import('../routes/Project/Pack')),
     },

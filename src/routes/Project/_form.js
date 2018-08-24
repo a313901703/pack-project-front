@@ -9,7 +9,7 @@ const FormItem = Form.Item;
 
 @connect(({ products, loading }) => ({
   products,
-  submitting: loading.effects['form/submitRegularForm'],
+  submitting: loading.effects['products/add'],
 }))
 @Form.create()
 export default class AddApi extends PureComponent {
@@ -156,7 +156,7 @@ export default class AddApi extends PureComponent {
 
           <FormItem {...formItemLayout} label="路径">
             {getFieldDecorator('path', {
-              initialValue: item.path,
+              initialValue: '/home/amos/projects',
               rules: [
                 {
                   required: true,
@@ -166,9 +166,8 @@ export default class AddApi extends PureComponent {
             })(<Input />)}
           </FormItem>
 
-          <FormItem {...formItemLayout} label="目标文件">
+          <FormItem {...formItemLayout} label="git地址">
             {getFieldDecorator('target', {
-              initialValue: item.target || '~/packages/',
               rules: [
                 {
                   required: true,

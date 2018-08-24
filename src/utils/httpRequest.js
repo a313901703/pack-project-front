@@ -6,8 +6,9 @@ import { notification } from 'antd';
 
 // create an axios instance
 const service = axios.create({
-  baseURL: 'http://127.0.0.1:8070/v1', // api的base_url
-  timeout: 5000, // request timeout
+  // baseURL: 'http://127.0.0.1:8070/v1', // api的base_url
+  baseURL: 'http://10.8.8.233:8011/v1',
+  timeout: 30000, // request timeout
 });
 
 // request interceptor

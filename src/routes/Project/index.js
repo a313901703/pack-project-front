@@ -1,12 +1,13 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Row, Col, Card, Form, Input, Icon, Button, Dropdown, Menu, Divider, message } from 'antd';
+import { Row, Col, Card, Form, Input, Icon, Button, Dropdown, Menu, message, Select } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 import styles from './style.less';
 
+const { Option } = Select;
 const FormItem = Form.Item;
 const getValue = obj =>
   Object.keys(obj)
@@ -165,7 +166,22 @@ export default class TableList extends PureComponent {
           </Col>
 
           <Col md={8} sm={24}>
-            <FormItem label="街道">{getFieldDecorator('street')(<Input />)}</FormItem>
+            <FormItem label="类型">
+              {getFieldDecorator('type')(
+                <Select
+                  showSearch
+                  placeholder="选择项目类型"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  <Option value="php">php</Option>
+                  <Option value="vue">vue</Option>
+                  <Option value="react">react</Option>
+                </Select>
+              )}
+            </FormItem>
           </Col>
         </Row>
         <div style={{ overflow: 'hidden' }}>
@@ -223,8 +239,6 @@ export default class TableList extends PureComponent {
         render: (text, record) => {
           return (
             <Fragment>
-              <a onClick={() => this.handelEdit(record.id)}>修改</a>
-              <Divider type="vertical" />
               <a onClick={() => this.handelDelete(record.id)}>删除</a>
             </Fragment>
           );

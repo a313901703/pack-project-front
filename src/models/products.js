@@ -5,6 +5,7 @@ import {
   editProject,
   deleteProject,
   addPack,
+  queryAllPack,
 } from '../services/project';
 
 export default {
@@ -12,6 +13,10 @@ export default {
 
   state: {
     data: {
+      list: [],
+      pagination: {},
+    },
+    packData: {
       list: [],
       pagination: {},
     },
@@ -24,6 +29,15 @@ export default {
       if (response) {
         yield put({
           type: 'saveProducts',
+          payload: response,
+        });
+      }
+    },
+    *fetchPacks({ payload }, { call, put }) {
+      const response = yield call(queryAllPack, payload);
+      if (response) {
+        yield put({
+          type: 'savePacks',
           payload: response,
         });
       }
@@ -75,8 +89,8 @@ export default {
           type: 'addPack',
           payload: response,
         });
+        if (callback) callback(response);
       }
-      if (callback) callback();
     },
     *clearItem({ callback }, { put }) {
       yield put({
@@ -92,6 +106,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    savePacks(state, action) {
+      return {
+        ...state,
+        packData: action.payload,
       };
     },
     setProduct(state, action) {

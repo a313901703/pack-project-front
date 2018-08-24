@@ -39,9 +39,17 @@ export function deleteProject(id) {
   });
 }
 
+export function queryAllPack(params) {
+  return request({
+    url: '/packages',
+    method: 'GET',
+    params,
+  });
+}
+
 export function addPack(data) {
   return request({
-    url: '/projects/pack',
+    url: '/packages/pack',
     method: 'POST',
     data,
   });
