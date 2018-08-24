@@ -91,6 +91,7 @@
       "prettier --write",
       "git add"
     ],
+    "**/*.{js,jsx}": "npm run lint-staged:js",
     "**/*.less": "stylelint --syntax less"
   },
   "engines": {
